@@ -34,7 +34,10 @@
     "deploy:staging": "gcloud beta functions deploy --gen2 --concurrency=80 --cpu 1 --memory=256MB --project=celo-mobile-alfajores --region=us-central1 --runtime=nodejs20 --env-vars-file=src/api/staging.yaml --update-labels \"valora-repo=hooks,commit-sha=$(git rev-parse HEAD)\"",
     "deploy:staging:http": "yarn deploy:staging --trigger-http --allow-unauthenticated",
     "deploy:production": "gcloud beta functions deploy --gen2 --concurrency=80 --cpu 1 --memory=512MB --project=celo-mobile-mainnet --region=us-central1 --runtime=nodejs20 --env-vars-file=src/api/production.yaml --update-labels \"valora-repo=hooks,commit-sha=$(git rev-parse HEAD)\" --set-secrets=NETWORK_ID_TO_RPC_URL=hooks-rpc-urls:latest",
-    "deploy:production:http": "yarn deploy:production --trigger-http --allow-unauthenticated"
+    "deploy:production:http": "yarn deploy:production --trigger-http --allow-unauthenticated",
+    "docker:build": "docker build -t hooks-tu-cop .",
+    "docker:run": "docker run -p 8080:8080 hooks-tu-cop",
+    "docker:dev": "docker run -p 8080:8080 -v $(pwd):/app hooks-tu-cop yarn start"
   },
   "dependencies": {
     "@0xsquid/squid-types": "^0.1.133",
